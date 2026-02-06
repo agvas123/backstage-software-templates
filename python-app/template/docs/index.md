@@ -1,4 +1,4 @@
-# Documents for python-app!
+# Documents for ${{values.app_name}}!
 
 Two endpoints
 - detailes
