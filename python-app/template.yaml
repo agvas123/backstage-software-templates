@@ -45,6 +45,7 @@ spec:
         repoUrl: github.com?owner=agvas123&repo=${{parameters.component_id}}
         protectDefaultBranch: false
         repoVisibility: public
+        defaultBranch: 'master'
 
     - id: register
       name: Register
