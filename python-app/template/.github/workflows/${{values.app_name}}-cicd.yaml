@@ -55,7 +55,9 @@ jobs:
           python3 --version
           yq --version
 
-          yq -Yi '.image.tag = ${{ '"${{needs.ci.outputs.commit_id}}'  }}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
+          TAG="${{ needs.ci.outputs.commit_id }}"
+          echo "Using tag: $TAG"
+          yq -Yi ".image.tag = \"$TAG\"" charts/{{ values.app_name }}/values-{{ values.app_env }}.yaml
       - 
         name: Github push
         uses: EndBug/add-and-commit@v9
