@@ -42,6 +42,8 @@ jobs:
         name: Modify values file
         shell: bash
         run: |
+          COMMIT_ID="${{ '{{' }} needs.ci.outputs.commit_id ${{ '}}' }}"
+          echo "Debug: El commit ID es $COMMIT_ID"
           echo "${{ '"${{needs.ci.outputs.commit_id}}'  }}"
           # Actualizar e instalar python3 y pip
           sudo apt-get update
@@ -54,14 +56,15 @@ jobs:
           # Verificar instalaciones
           python3 --version
           yq --version
-
+          # Variables de Backstage puras (sin el $ dentro de las llaves)
           # Asignar el tag (escapando la sintaxis de GitHub Actions)
           TAG=${{ '${{ needs.ci.outputs.commit_id }}' }}
-          echo "Using tag: $TAG"
-          
-          # Usamos yq -i para editar el archivo directamente (In-place)
-          # Nota: Asegúrate de que las variables de Backstage estén entre {{ }} sin el $
-          yq -i -Y ".image.tag = \"$TAG\"" "charts/${{ values.app_name }}/values-${{ values.app_env }}.yaml"
+          # Variables de Backstage puras (sin el $ dentro de las llaves)
+          FILE_PATH="charts/${{ values.app_name }}/values-${{ values.app_env }}.yaml"
+
+          echo "Actualizando archivo: $FILE_PATH"
+          yq -i -Y ".image.tag = \"$COMMIT_ID\"" "$FILE_PATH"
+
       - 
         name: Github push
         uses: EndBug/add-and-commit@v9
