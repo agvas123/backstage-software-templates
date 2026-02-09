@@ -55,7 +55,7 @@ jobs:
           python3 --version
           yq --version
 
-          TAG="${{ needs.ci.outputs.commit_id }}"
+          TAG=${{ needs.ci.outputs.commit_id }}
           echo "Using tag: $TAG"
           yq -Yi ".image.tag = \"$TAG\"" charts/{{ values.app_name }}/values-{{ values.app_env }}.yaml
       - 
