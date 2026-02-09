@@ -55,9 +55,13 @@ jobs:
           python3 --version
           yq --version
 
-          TAG=${{ needs.ci.outputs.commit_id }}
+          # Asignar el tag (escapando la sintaxis de GitHub Actions)
+          TAG=${{ '${{ needs.ci.outputs.commit_id }}' }}
           echo "Using tag: $TAG"
-          yq -Yi ".image.tag = \"$TAG\"" charts/{{ values.app_name }}/values-{{ values.app_env }}.yaml
+          
+          # Usamos yq -i para editar el archivo directamente (In-place)
+          # Nota: Asegúrate de que las variables de Backstage estén entre {{ }} sin el $
+          yq -i -Y ".image.tag = \"$TAG\"" "charts/${{ values.app_name }}/values-${{ values.app_env }}.yaml"
       - 
         name: Github push
         uses: EndBug/add-and-commit@v9
