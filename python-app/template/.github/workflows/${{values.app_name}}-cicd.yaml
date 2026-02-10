@@ -96,12 +96,5 @@ jobs:
         name: Argocd app sync
         shell: bash
         run: |
-          argocd login argocd-server.argocd:443 \
-            --insecure \
-            --username admin \
-            --password "${{ '${{ secrets.ARGOCD_PASSWORD }}' }}" \
-            --grpc-web
-            
-
             argocd app sync ${{values.app_name}}
             argocd app wait ${{values.app_name}} --timeout 180
