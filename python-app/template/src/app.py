@@ -10,7 +10,7 @@ def details():
         'time': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'hostname': socket.gethostname(),
         'message': 'You are doing great! <3<3',
-        'env': ${{values.app_env}}
+        'env': ${{values.app_env}},
         'app': ${{values.app_name}}
         })
 
